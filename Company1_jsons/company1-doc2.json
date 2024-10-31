@@ -1,0 +1,117 @@
+{
+  "_id": {
+    "$oid": "67238a08797bb793d50d8193"
+  },
+  "customers": [
+    {
+      "name": "Alice",
+      "username": "Alice01",
+      "email": "alice@example.com",
+      "phone": "+911212121212",
+      "points": [
+        {
+          "points": "150",
+          "issuance": {
+            "$date": "2024-07-10T00:00:00.000Z"
+          },
+          "expiry": {
+            "$date": "2024-10-31T00:00:00.000Z"
+          },
+          "tx_id": "Add-Alice01-001"
+        },
+        {
+          "points": "77",
+          "issuance": {
+            "$date": "2024-08-06T20:00:00.000Z"
+          },
+          "expiry": {
+            "$date": "2024-11-30T00:00:00.000Z"
+          },
+          "tx_id": "Add-Alice01-002"
+        },
+        {
+          "points": "-30",
+          "issuance": {
+            "$date": "2024-09-25T00:00:00.000Z"
+          },
+          "expiry": null,
+          "tx_id": "Deduct-Alice01-003"
+        }
+      ]
+    },
+    {
+      "name": "Bob",
+      "username": "Bob2000",
+      "email": "bob@example.com",
+      "phone": "+911231231231",
+      "points": [
+        {
+          "points": "50",
+          "issuance": {
+            "$date": "2024-03-25T00:00:00.000Z"
+          },
+          "expiry": {
+            "$date": "2024-06-30T00:00:00.000Z"
+          },
+          "tx_id": "Add-Bob2000-001"
+        },
+        {
+          "points": "50",
+          "issuance": {
+            "$date": "2024-09-04T00:00:00.000Z"
+          },
+          "expiry": {
+            "$date": "2024-12-31T00:00:00.000Z"
+          },
+          "tx_id": "Add-Bob2000-002"
+        },
+        {
+          "points": "-30",
+          "issuance": {
+            "$date": "2024-10-21T00:00:00.000Z"
+          },
+          "expiry": null,
+          "tx_id": "Deduct-Bob2000-003"
+        },
+        {
+          "points": "200",
+          "issuance": {
+            "$date": "2024-10-27T00:00:00.000Z"
+          },
+          "expiry": {
+            "$date": "2025-01-31T00:00:00.000Z"
+          },
+          "tx_id": "Add-Bob2000-004"
+        }
+      ]
+    },
+    {
+      "name": "Carol",
+      "username": "Angel_1",
+      "email": "carol@example.com",
+      "phone": "+911234123412",
+      "points": [
+        {
+          "points": "30",
+          "issuance": {
+            "$date": "2024-08-12T00:00:00.000Z"
+          },
+          "expiry": {
+            "$date": "2024-11-30T00:00:00.000Z"
+          },
+          "tx_id": "Add-Angel_1-001"
+        },
+        {
+          "points": "110",
+          "issuance": {
+            "$date": "2024-10-08T00:00:00.000Z"
+          },
+          "expiry": {
+            "$date": "1970-01-01T00:00:00.000Z"
+          },
+          "tx_id": "Add-Angel_1-002"
+        }
+      ]
+    }
+  ]
+}
