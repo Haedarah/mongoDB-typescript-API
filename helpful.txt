@@ -5,7 +5,7 @@
 | Carol:	carol@example.com	+911234123412	|
 | Carlos:	carlos@example.com	+911234512345	|
 | Darwin:	darwin@example.com	+912121212121	|
-| Eliot:	elliot@example.com 	+913213213213	|
+| Elliot:	elliot@example.com 	+913213213213	|
 ---------------------------------------------------------
 | # Companies: 						|
 | Company1: Alice, Bob, and Carol			|
