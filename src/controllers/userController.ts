@@ -1,41 +1,103 @@
 import { Request, Response } from 'express';
 import Company1 from '../models/Company1';
+import Company2 from '../models/Company2';
+import Company3 from '../models/Company3';
+import Company4 from '../models/Company4';
+
+const companyModels: { [key: string]: any } = {
+    'Company1': Company1,
+    'Company2': Company2,
+    'Company3': Company3,
+    'Company4': Company4
+};
 
 export const getUserPoints = async (req: Request, res: Response): Promise<void> => {
+    const { username, phone, email } = req.query;
+
+    const companyKey = req.baseUrl.split('/')[1];
+    const company = companyModels[companyKey];
+
+    if (!company) {
+        res.status(400).json({ error: 'Invalid company route' });
+        return;
+    }
+
+    let query: any = {};
+
+    if (username) query = { 'customers.username': username };
+    else if (phone) query = { 'customers.phone': phone };
+    else if (email) query = { 'customers.email': email };
+    else { res.status(400).json({ error: 'Missing query parameter' }); return; }
+
     try {
-        const { username, phone, email } = req.query;
+        const result = await company.findOne(query, { 'customers.$': 1 });
+        if (!result) { res.status(404).json({ error: 'User not found' }); return; }
 
-        const customers = await Company1.findOne({
-            "customers": {
-                $elemMatch: {
-                    ...(username && { username }),
-                    ...(phone && { phone }),
-                    ...(email && { email }),
-                }
-            }
-        });
+        const customer = result.customers[0];
+        if (customer) {
+            const response = {
+                name: customer.name,
+                username: customer.username,
+                email: customer.email,
+                phone: customer.phone,
+                points: customer.points
+            };
+            res.json(response);
+        } else {
+            res.status(404).json({ error: 'Customer not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ error: 'Server error' });
+    }
+};
 
-        // console.log(customers)
+export const getTotalPoints = async (req: Request, res: Response): Promise<void> => {
+    const { username, phone, email } = req.query;
 
-        // to query phone number, use this: %2B instead of '+' in the url.
-        // example: http://localhost:3000/api/users/points?phone=%2B911231231231 instead of http://localhost:3000/api/users/points?phone=+911231231231
+    const companyKey = req.baseUrl.split('/')[1];
+    const company = companyModels[companyKey];
 
-        if (!customers) {
-            res.status(404).json({ message: 'User not found' });
+    if (!company) {
+        res.status(400).json({ error: 'Invalid company route' });
+        return;
+    }
+
+    let query: any = {};
+
+    if (username) query = { 'customers.username': username };
+    else if (phone) query = { 'customers.phone': phone };
+    else if (email) query = { 'customers.email': email };
+    else { res.status(400).json({ error: 'Missing query parameter' }); return; }
+
+    try {
+        const result = await company.findOne(query, { 'customers.points.$': 1 });
+        if (!result) { res.status(404).json({ error: 'User not found' }); return; }
+
+        const customer = result.customers[0];
+        if (!customer || !customer.points) {
+            res.status(404).json({ error: 'Customer points not found' });
             return;
         }
 
-        const customer = customers.customers.find(
-            (c) => c.username === username || c.phone === phone || c.email === email
-        );
+        let totalPoints = 0;
+        const currentDate = new Date();
 
-        if (customer) {
-            res.json(customer.points);
-        } else {
-            res.status(404).json({ message: 'User not found' });
-        }
+        customer.points.forEach((point: any) => {
+            const pointValue = parseFloat(point.points) || 0;
+            if (pointValue >= 0) {
+                if (currentDate <= point.expiry) {
+                    totalPoints += pointValue;
+                }
+            }
+            else {
+                totalPoints += pointValue;
+            }
+            if (totalPoints < 0) totalPoints = 0;
+        });
+
+        res.json({ totalPoints }); // Return the total points in the response
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Server error' });
+        res.status(500).json({ error: 'Server error' });
     }
 };
+
