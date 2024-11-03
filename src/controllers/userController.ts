@@ -95,9 +95,101 @@ export const getTotalPoints = async (req: Request, res: Response): Promise<void>
             if (totalPoints < 0) totalPoints = 0;
         });
 
-        res.json({ totalPoints }); // Return the total points in the response
+        res.json({ totalPoints });
     } catch (error) {
         res.status(500).json({ error: 'Server error' });
     }
 };
 
+export const updateUserPoints = async (req: Request, res: Response): Promise<void> => {
+    const { username, phone, email } = req.query;
+    const companyKey = req.baseUrl.split('/')[1];
+    const company = companyModels[companyKey];
+
+    if (!company) {
+        res.status(400).json({ error: 'Invalid company route' });
+        return;
+    }
+
+    let query: any = {};
+    if (username) query = { 'customers.username': username };
+    else if (phone) query = { 'customers.phone': phone };
+    else if (email) query = { 'customers.email': email };
+    else {
+        res.status(400).json({ error: 'Missing identifier (username, phone, or email)' });
+        return;
+    }
+
+    const { points } = req.body;
+
+    let newPoint = {};
+    let transaction_id;
+
+    if (points >= 0) transaction_id = "MONET-add_" + generateTxId();
+    else transaction_id = "MONET-deduct_" + generateTxId();
+
+    if (companyKey == "Company1") {
+        newPoint = {
+            points: String(points),
+            issuance: new Date(),
+            expiry: points >= 0 ? new Date(Date.now() + 14 * 24 * 60 * 60 * 1000) : null, //two weeks from now
+            tx_id: transaction_id
+        }
+    }
+
+    else if (companyKey == "Company2") {
+        newPoint = {
+            points: String(points),
+            issued_on: new Date(),
+            expiry: points >= 0 ? new Date(Date.now() + 14 * 24 * 60 * 60 * 1000) : null,
+            tx_id: transaction_id
+        }
+    }
+
+    else if (companyKey == "Company3") {
+        newPoint = {
+            points: String(points),
+            issued: new Date(),
+            expiry: points >= 0 ? new Date(Date.now() + 14 * 24 * 60 * 60 * 1000) : null,
+            tx_id: transaction_id
+        }
+    }
+
+    else if (companyKey == "Company4") {
+        newPoint = {
+            points: String(points),
+            issuance: new Date(),
+            expiry: points >= 0 ? new Date(Date.now() + 14 * 24 * 60 * 60 * 1000) : null,
+            tx_id: transaction_id
+        }
+    }
+
+    try {
+        const update = await company.updateOne(
+            query,
+            { $push: { 'customers.$.points': newPoint } }
+        );
+
+        if (update.modifiedCount === 0) {
+            res.status(404).json({ error: 'User not found or no update performed' });
+        } else {
+            res.status(200).json({ message: 'Points updated successfully' });
+        }
+    } catch (error) {
+        res.status(500).json({ error: 'Server error' });
+    }
+};
+
+function generateTxId(): string {
+    const now = new Date();
+
+    const year = now.getFullYear().toString(); // YYYY
+    const month = String(now.getMonth() + 1).padStart(2, '0'); // MM 
+    const day = String(now.getDate()).padStart(2, '0'); // DD 
+    const hours = String(now.getHours()).padStart(2, '0'); // HH
+    const minutes = String(now.getMinutes()).padStart(2, '0'); // MM 
+    const seconds = String(now.getSeconds()).padStart(2, '0'); // SS 
+    const milliseconds = String(now.getMilliseconds()).padStart(4, '0'); // MMMM 
+
+    return `${year}${month}${day}${hours}${minutes}${seconds}${milliseconds}`;
+}
