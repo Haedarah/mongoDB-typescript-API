@@ -120,7 +120,7 @@ export const updateUserPoints = async (req: Request, res: Response): Promise<voi
         return;
     }
 
-    const { points } = req.body;
+    const { points, expiry } = req.body;
 
     let newPoint = {};
     let transaction_id;
@@ -132,7 +132,7 @@ export const updateUserPoints = async (req: Request, res: Response): Promise<voi
         newPoint = {
             points: String(points),
             issuance: new Date(),
-            expiry: points >= 0 ? new Date(Date.now() + 14 * 24 * 60 * 60 * 1000) : null, //two weeks from now
+            expiry: points >= 0 ? new Date(expiry) : null, //two weeks from now
             tx_id: transaction_id
         }
     }
@@ -141,7 +141,7 @@ export const updateUserPoints = async (req: Request, res: Response): Promise<voi
         newPoint = {
             points: String(points),
             issued_on: new Date(),
-            expiry: points >= 0 ? new Date(Date.now() + 14 * 24 * 60 * 60 * 1000) : null,
+            expiry: points >= 0 ? new Date(expiry) : null,
             tx_id: transaction_id
         }
     }
@@ -150,7 +150,7 @@ export const updateUserPoints = async (req: Request, res: Response): Promise<voi
         newPoint = {
             points: String(points),
             issued: new Date(),
-            expiry: points >= 0 ? new Date(Date.now() + 14 * 24 * 60 * 60 * 1000) : null,
+            expiry: points >= 0 ? new Date(expiry) : null,
             tx_id: transaction_id
         }
     }
@@ -159,7 +159,7 @@ export const updateUserPoints = async (req: Request, res: Response): Promise<voi
         newPoint = {
             points: String(points),
             issuance: new Date(),
-            expiry: points >= 0 ? new Date(Date.now() + 14 * 24 * 60 * 60 * 1000) : null,
+            expiry: points >= 0 ? new Date(expiry) : null,
             tx_id: transaction_id
         }
     }
@@ -179,7 +179,7 @@ export const updateUserPoints = async (req: Request, res: Response): Promise<voi
             res.status(200).json({
                 message: 'Points updated successfully',
                 tx_id: transaction_id,
-                mongoID: addedPoint._id
+                id: addedPoint._id
             });
         }
     } catch (error) {
