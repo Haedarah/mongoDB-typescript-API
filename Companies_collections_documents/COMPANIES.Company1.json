@@ -1,3 +1,11 @@
+[{
+  "_id": {
+    "$oid": "672386e1797bb793d50d8192"
+  },
+  "company_id": "Co1",
+  "company_category": "A",
+  "company_name": "QWERTY"
+},
 {
   "_id": {
     "$oid": "67238a08797bb793d50d8193"
@@ -17,7 +25,20 @@
           "expiry": {
             "$date": "2024-10-31T00:00:00.000Z"
           },
-          "tx_id": "Add-Alice01-001"
+          "current_points": "120",
+          "deduction_history": [
+            {
+              "amount": "30",
+              "ref_tx_id": "Deduct-Alice01-003",
+              "_id": {
+                "$oid": "672a44a1592d2ecc2ef74e90"
+              }
+            }
+          ],
+          "tx_id": "Add-Alice01-001",
+          "_id": {
+            "$oid": "672a44a1592d2ecc2ef74e8f"
+          }
         },
         {
           "points": "77",
@@ -27,17 +48,22 @@
           "expiry": {
             "$date": "2024-11-30T00:00:00.000Z"
           },
-          "tx_id": "Add-Alice01-002"
+          "current_points": "77",
+          "tx_id": "Add-Alice01-002",
+          "_id": {
+            "$oid": "672a44a1592d2ecc2ef74e91"
+          }
         },
         {
           "points": "-30",
           "issuance": {
             "$date": "2024-09-25T00:00:00.000Z"
           },
-          "expiry": {
-            "$date": null
-          },
-          "tx_id": "Deduct-Alice01-003"
+          "deduction_history": [],
+          "tx_id": "Deduct-Alice01-003",
+          "_id": {
+            "$oid": "672a44a1592d2ecc2ef74e92"
+          }
         }
       ]
     },
@@ -55,6 +81,7 @@
           "expiry": {
             "$date": "2024-06-30T00:00:00.000Z"
           },
+          "current_points": "50",
           "tx_id": "Add-Bob2000-001"
         },
         {
@@ -65,15 +92,19 @@
           "expiry": {
             "$date": "2024-12-31T00:00:00.000Z"
           },
+          "deduction_history": [
+            {
+              "amount": "30",
+              "ref_tx_id": "Deduct-Bob2000-003"
+            }
+          ],
+          "current_points": "20",
           "tx_id": "Add-Bob2000-002"
         },
         {
           "points": "-30",
           "issuance": {
             "$date": "2024-10-21T00:00:00.000Z"
-          },
-          "expiry": {
-            "$date": null
           },
           "tx_id": "Deduct-Bob2000-003"
         },
@@ -85,6 +116,7 @@
           "expiry": {
             "$date": "2025-01-31T00:00:00.000Z"
           },
+          "current_points": "200",
           "tx_id": "Add-Bob2000-004"
         }
       ]
@@ -103,7 +135,11 @@
           "expiry": {
             "$date": "2024-11-30T00:00:00.000Z"
           },
-          "tx_id": "Add-Angel_1-001"
+          "current_points": "30",
+          "tx_id": "Add-Angel_1-001",
+          "_id": {
+            "$oid": "672a39ba57cb7bfe31e5ad20"
+          }
         },
         {
           "points": "110",
@@ -111,11 +147,15 @@
             "$date": "2024-10-08T00:00:00.000Z"
           },
           "expiry": {
-            "$date": "1970-01-31T00:00:00.000Z"
+            "$date": "2025-01-31T00:00:00.000Z"
           },
-          "tx_id": "Add-Angel_1-002"
+          "current_points": "110",
+          "tx_id": "Add-Angel_1-002",
+          "_id": {
+            "$oid": "672a39ba57cb7bfe31e5ad21"
+          }
         }
       ]
     }
   ]
-}
+}]

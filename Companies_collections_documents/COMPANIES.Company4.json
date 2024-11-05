@@ -1,3 +1,11 @@
+[{
+  "_id": {
+    "$oid": "6724a5558d52318c367f462d"
+  },
+  "company_id": "Co4",
+  "company_category": "C",
+  "company_name": "ZXCV"
+},
 {
   "_id": {
     "$oid": "6724b1858d52318c367f467d"
@@ -17,6 +25,13 @@
           "expiry": {
             "$date": "2025-03-07T00:00:00.000Z"
           },
+          "deduction_history": [
+            {
+              "amount": "70",
+              "ref_tx_id": "transation_3"
+            }
+          ],
+          "current_points": "130",
           "tx_id": "transation_1"
         },
         {
@@ -27,15 +42,13 @@
           "expiry": {
             "$date": "2025-07-24T00:00:00.000Z"
           },
+          "current_points": "210",
           "tx_id": "transation_2"
         },
         {
           "points": "-70",
           "issuance": {
             "$date": "2024-09-29T00:00:00.000Z"
-          },
-          "expiry": {
-            "$date": null
           },
           "tx_id": "transation_3"
         }
@@ -55,15 +68,19 @@
           "expiry": {
             "$date": "2025-01-01T00:00:00.000Z"
           },
+          "deduction_history": [
+            {
+              "amount": "50",
+              "ref_tx_id": "transation_2"
+            }
+          ],
+          "current_points": "70",
           "tx_id": "transation_1"
         },
         {
           "points": "-50",
           "issuance": {
             "$date": "2024-02-13T00:00:00.000Z"
-          },
-          "expiry": {
-            "$date": null
           },
           "tx_id": "transation_2"
         }
@@ -83,9 +100,10 @@
           "expiry": {
             "$date": "2025-09-09T00:00:00.000Z"
           },
+          "current_points": "900",
           "tx_id": "transation_1"
         }
       ]
     }
   ]
-}
+}]

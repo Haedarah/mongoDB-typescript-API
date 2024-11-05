@@ -1,3 +1,11 @@
+[{
+  "_id": {
+    "$oid": "6724a1198d52318c367f461c"
+  },
+  "company_id": "Co2",
+  "company_category": "A",
+  "company_name": "ASDF"
+},
 {
   "_id": {
     "$oid": "6724a1548d52318c367f4625"
@@ -17,6 +25,7 @@
           "expiry": {
             "$date": "2024-11-10T00:00:00.000Z"
           },
+          "current_points": "300",
           "tx_id": "tx1"
         },
         {
@@ -27,6 +36,7 @@
           "expiry": {
             "$date": "2024-11-15T00:00:00.000Z"
           },
+          "current_points": "250",
           "tx_id": "tx2"
         }
       ]
@@ -45,6 +55,17 @@
           "expiry": {
             "$date": "2024-03-20T00:00:00.000Z"
           },
+          "deduction_history": [
+            {
+              "amount": "300",
+              "ref_tx_id": "tx2"
+            },
+            {
+              "amount": "400",
+              "ref_tx_id": "tx3"
+            }
+          ],
+          "current_points": "300",
           "tx_id": "tx1"
         },
         {
@@ -52,18 +73,12 @@
           "issued_on": {
             "$date": "2024-03-05T00:00:00.000Z"
           },
-          "expiry": {
-            "$date": null
-          },
           "tx_id": "tx2"
         },
         {
           "points": "-400",
           "issued_on": {
             "$date": "2024-03-13T00:00:00.000Z"
-          },
-          "expiry": {
-            "$date": null
           },
           "tx_id": "tx3"
         },
@@ -75,6 +90,7 @@
           "expiry": {
             "$date": "2024-12-01T00:00:00.000Z"
           },
+          "current_points": "140",
           "tx_id": "tx4"
         }
       ]
@@ -93,15 +109,19 @@
           "expiry": {
             "$date": "2024-02-01T00:00:00.000Z"
           },
+          "deduction_history": [
+            {
+              "amount": "40",
+              "ref_tx_id": "tx2"
+            }
+          ],
+          "current_points": "160",
           "tx_id": "tx1"
         },
         {
           "points": "-40",
           "issued_on": {
             "$date": "2024-01-21T00:00:00.000Z"
-          },
-          "expiry": {
-            "$date": null
           },
           "tx_id": "tx2"
         },
@@ -113,6 +133,7 @@
           "expiry": {
             "$date": "2024-06-12T00:00:00.000Z"
           },
+          "current_points": "200",
           "tx_id": "tx3"
         },
         {
@@ -123,6 +144,7 @@
           "expiry": {
             "$date": "2024-11-27T00:00:00.000Z"
           },
+          "current_points": "150",
           "tx_id": "tx4"
         },
         {
@@ -133,9 +155,10 @@
           "expiry": {
             "$date": "2024-11-30T00:00:00.000Z"
           },
+          "current_points": "150",
           "tx_id": "tx5"
         }
       ]
     }
   ]
-}
+}]
