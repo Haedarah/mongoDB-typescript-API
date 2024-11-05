@@ -37,7 +37,7 @@ export const getUserPoints = async (req: Request, res: Response): Promise<void> 
         if (customer && customer.points) {
             const validPointsArray = customer.points
                 .filter((point: any) => new Date(point.expiry) > new Date() && parseFloat(point.current_points) > 0)
-                .map((point: any) => ({ points: point.current_points, valid_until: point.expiry }));
+                .map((point: any) => ({ points: point.current_points, expiry: point.expiry }));
 
             const response = {
                 total_points: calculateTotalPoints(customer.points),
