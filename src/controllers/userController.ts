@@ -202,29 +202,29 @@ export const updateUserPoints = async (req: Request, res: Response): Promise<voi
                 await company.updateOne(query, { 'customers.$.points': customer.points });
             }
         }
-
-        try {
-            const updatedDoc = await company.findOneAndUpdate(
-                query,
-                { $push: { 'customers.$.points': newPoint } },
-                { returnDocument: 'after' }
-            );
-
-            if (!updatedDoc) {
-                res.status(404).json({ error: 'User not found or no update performed' });
-            }
-            else {
-                const addedPoint = updatedDoc.customers[0].points.slice(-1)[0];
-                res.status(200).json({
-                    message: 'Points updated successfully',
-                    tx_id: transaction_id,
-                    id: addedPoint._id
-                });
-            }
-        } catch (error) {
-            res.status(500).json({ error: 'Server error' });
-        }
     };
+
+    try {
+        const updatedDoc = await company.findOneAndUpdate(
+            query,
+            { $push: { 'customers.$.points': newPoint } },
+            { returnDocument: 'after' }
+        );
+
+        if (!updatedDoc) {
+            res.status(404).json({ error: 'User not found or no update performed' });
+        }
+        else {
+            const addedPoint = updatedDoc.customers[0].points.slice(-1)[0];
+            res.status(200).json({
+                message: 'Points updated successfully',
+                tx_id: transaction_id,
+                id: addedPoint._id
+            });
+        }
+    } catch (error) {
+        res.status(500).json({ error: 'Server error' });
+    }
 
 }
 
