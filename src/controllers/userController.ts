@@ -34,13 +34,14 @@ export const getUserPoints = async (req: Request, res: Response): Promise<void> 
         if (!result) { res.status(404).json({ error: 'User not found' }); return; }
 
         const customer = result.customers[0];
-        if (customer) {
+        if (customer && customer.points) {
+            const validPointsArray = customer.points
+                .filter((point: any) => new Date(point.expiry) > new Date() && parseFloat(point.current_points) > 0)
+                .map((point: any) => ({ points: point.current_points, valid_until: point.expiry }));
+
             const response = {
-                name: customer.name,
-                username: customer.username,
-                email: customer.email,
-                phone: customer.phone,
-                points: customer.points
+                total_points: calculateTotalPoints(customer.points),
+                points: validPointsArray
             };
             res.json(response);
         } else {
@@ -79,21 +80,7 @@ export const getTotalPoints = async (req: Request, res: Response): Promise<void>
             return;
         }
 
-        let totalPoints = 0;
-        const currentDate = new Date();
-
-        customer.points.forEach((point: any) => {
-            const pointValue = parseFloat(point.points) || 0;
-            if (pointValue >= 0) {
-                if (currentDate <= point.expiry) {
-                    totalPoints += pointValue;
-                }
-            }
-            else {
-                totalPoints += pointValue;
-            }
-            if (totalPoints < 0) totalPoints = 0;
-        });
+        const totalPoints = calculateTotalPoints(customer.points);
 
         res.json({ totalPoints });
     } catch (error) {
@@ -122,70 +109,124 @@ export const updateUserPoints = async (req: Request, res: Response): Promise<voi
 
     const { points, expiry } = req.body;
 
-    let newPoint = {};
+    let newPoint: any = {};
     let transaction_id;
 
-    if (points >= 0) transaction_id = "MONET-add_" + generateTxId();
-    else transaction_id = "MONET-deduct_" + generateTxId();
+    if (points >= 0) {
+        transaction_id = "MONET-add_" + generateTxId();
 
-    if (companyKey == "Company1") {
-        newPoint = {
-            points: String(points),
-            issuance: new Date(),
-            expiry: points >= 0 ? new Date(expiry) : null, //two weeks from now
-            tx_id: transaction_id
+        if (companyKey == "Company1" || companyKey == "Company4") { //Company1 and Company4 have the exact same point schema.
+            newPoint = {
+                points: String(points),
+                issuance: new Date(),
+                expiry: points >= 0 ? new Date(expiry) : null,
+                current_points: String(points),
+                tx_id: transaction_id
+            }
         }
-    }
 
-    else if (companyKey == "Company2") {
-        newPoint = {
-            points: String(points),
-            issued_on: new Date(),
-            expiry: points >= 0 ? new Date(expiry) : null,
-            tx_id: transaction_id
+        else if (companyKey == "Company2") {
+            newPoint = {
+                points: String(points),
+                issued_on: new Date(),
+                expiry: points >= 0 ? new Date(expiry) : null,
+                current_points: String(points),
+                tx_id: transaction_id
+            }
         }
-    }
 
-    else if (companyKey == "Company3") {
+        else if (companyKey == "Company3") {
+            newPoint = {
+                points: String(points),
+                issued: new Date(),
+                expiry: points >= 0 ? new Date(expiry) : null,
+                current_points: String(points),
+                tx_id: transaction_id
+            }
+        }
+
+    }
+    else {
+        transaction_id = "MONET-deduct_" + generateTxId();
+
         newPoint = {
             points: String(points),
             issued: new Date(),
-            expiry: points >= 0 ? new Date(expiry) : null,
             tx_id: transaction_id
-        }
-    }
+        };
 
-    else if (companyKey == "Company4") {
-        newPoint = {
-            points: String(points),
-            issuance: new Date(),
-            expiry: points >= 0 ? new Date(expiry) : null,
-            tx_id: transaction_id
-        }
-    }
+        let remainingDeduction = Math.abs(points);
 
-    try {
-        const updatedDoc = await company.findOneAndUpdate(
-            query,
-            { $push: { 'customers.$.points': newPoint } },
-            { returnDocument: 'after' }
-        );
+        const user = await company.findOne(query, { 'customers.$': 1 });
 
-        if (!updatedDoc) {
-            res.status(404).json({ error: 'User not found or no update performed' });
+        if (!user || !user.customers || user.customers.length === 0) {
+            res.status(404).json({ error: 'User not found' });
+            return;
         }
-        else {
-            const addedPoint = updatedDoc.customers[0].points.slice(-1)[0];
-            res.status(200).json({
-                message: 'Points updated successfully',
-                tx_id: transaction_id,
-                id: addedPoint._id
-            });
+
+        const customer = user.customers[0];
+        const currentDate = new Date();
+
+        let totalAvailablePoints = calculateTotalPoints(customer.points);
+
+        if (remainingDeduction > totalAvailablePoints) {
+            res.status(400).json({ error: 'Insufficient points for deduction' });
+            return;
         }
-    } catch (error) {
-        res.status(500).json({ error: 'Server error' });
-    }
-};
+
+        for (const pointEntry of customer.points) {
+            if (currentDate > pointEntry.expiry) continue;
+
+            const availablePoints = parseFloat(pointEntry.current_points) || 0;
+
+            if (remainingDeduction <= availablePoints) {
+                pointEntry.current_points = (availablePoints - remainingDeduction).toString();
+
+                pointEntry.deduction_history = pointEntry.deduction_history || [];
+                pointEntry.deduction_history.push({
+                    amount: remainingDeduction.toString(),
+                    ref_tx_id: transaction_id
+                });
+                await company.updateOne(query, { 'customers.$.points': customer.points });
+                break;
+            }
+            else {
+                remainingDeduction -= availablePoints;
+                pointEntry.current_points = "0";
+
+                pointEntry.deduction_history = pointEntry.deduction_history || [];
+                pointEntry.deduction_history.push({
+                    amount: availablePoints.toString(),
+                    ref_tx_id: transaction_id
+                });
+                await company.updateOne(query, { 'customers.$.points': customer.points });
+            }
+        }
+
+        try {
+            const updatedDoc = await company.findOneAndUpdate(
+                query,
+                { $push: { 'customers.$.points': newPoint } },
+                { returnDocument: 'after' }
+            );
+
+            if (!updatedDoc) {
+                res.status(404).json({ error: 'User not found or no update performed' });
+            }
+            else {
+                const addedPoint = updatedDoc.customers[0].points.slice(-1)[0];
+                res.status(200).json({
+                    message: 'Points updated successfully',
+                    tx_id: transaction_id,
+                    id: addedPoint._id
+                });
+            }
+        } catch (error) {
+            res.status(500).json({ error: 'Server error' });
+        }
+    };
+
+}
 
 function generateTxId(): string {
     const now = new Date();
@@ -200,3 +241,17 @@ function generateTxId(): string {
 
     return `${year}${month}${day}${hours}${minutes}${seconds}${milliseconds}`;
 }
+
+const calculateTotalPoints = (pointsArray: any[]): number => {
+    let totalPoints = 0;
+    const currentDate = new Date();
+
+    pointsArray.forEach((point: any) => {
+        const pointValue = parseFloat(point.current_points) || 0;
+        if (pointValue >= 0 && currentDate <= point.expiry) {
+            totalPoints += pointValue;
+        }
+    });
+
+    return totalPoints;
+};

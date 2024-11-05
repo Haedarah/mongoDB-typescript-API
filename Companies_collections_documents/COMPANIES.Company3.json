@@ -1,3 +1,11 @@
+[{
+  "_id": {
+    "$oid": "6724a51f8d52318c367f4627"
+  },
+  "company_id": "Co3",
+  "company_category": "B",
+  "company_name": "GHJK"
+},
 {
   "_id": {
     "$oid": "6724a5d58d52318c367f4654"
@@ -17,6 +25,7 @@
           "expiry": {
             "$date": "2024-07-01T00:00:00.000Z"
           },
+          "current_points": "100",
           "tx_id": "0"
         },
         {
@@ -27,6 +36,7 @@
           "expiry": {
             "$date": "2024-12-12T00:00:00.000Z"
           },
+          "current_points": "200",
           "tx_id": "1"
         },
         {
@@ -37,6 +47,7 @@
           "expiry": {
             "$date": "2025-03-22T00:00:00.000Z"
           },
+          "current_points": "100",
           "tx_id": "2"
         }
       ]
@@ -55,6 +66,7 @@
           "expiry": {
             "$date": "2024-06-25T00:00:00.000Z"
           },
+          "current_points": "40",
           "tx_id": "0"
         },
         {
@@ -65,15 +77,19 @@
           "expiry": {
             "$date": "2025-04-04T00:00:00.000Z"
           },
+          "deduction_history": [
+            {
+              "amount": "50",
+              "ref_tx_id": "2"
+            }
+          ],
+          "current_points": "0",
           "tx_id": "1"
         },
         {
           "points": "-50",
           "issued": {
             "$date": "2024-10-19T00:00:00.000Z"
-          },
-          "expiry": {
-            "$date": null
           },
           "tx_id": "2"
         }
@@ -87,4 +103,4 @@
       "points": []
     }
   ]
-}
+}]
