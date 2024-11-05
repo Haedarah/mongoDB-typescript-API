@@ -3,7 +3,7 @@ import connectDB from './database';
 import dotenv from 'dotenv';
 import userRoutes from './routes/users';
 import authMiddleware from './middleware/authMiddleware';
-
+import cors from 'cors';
 dotenv.config();
 
 const app = express();
@@ -14,6 +14,10 @@ connectDB();
 
 //Step2: a middleware funciton in Express to automatically parse incoming jsons
 app.use(express.json());
+
+// enable cors
+app.use(cors());
+app.options('*', cors());
 
 //Step3: Define routes:
 app.use(
