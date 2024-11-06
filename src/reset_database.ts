@@ -8,7 +8,6 @@ dotenv.config();
 // const dbUri = process.env.MONGODB_URI || ''; //local
 const dbUri = process.env.MONGO_URI || ''; //atlas
 
-const collections = ['Company1', 'Company2', 'Company3', 'Company4'];
 const defaultDataFolder = path.join(__dirname, '../default_companies'); //To get the default_companies directory, please reach out to me.
 
 async function resetDatabase() {
@@ -31,6 +30,40 @@ async function resetDatabase() {
 
             const rawData = fs.readFileSync(filePath, 'utf-8'); //read the data from the file
             const defaultData = JSON.parse(rawData); //parse the json data into a javascript object 
+
+            // Log the "points" array for each customer in "customers"
+            defaultData.forEach((doc: any) => {
+                if (doc.hasOwnProperty('customers')) {
+                    // console.log('Document with "customers" attribute:', doc);
+
+                    doc.customers.forEach((customer: any) => {
+                        if (customer.hasOwnProperty('points')) {
+                            // console.log('Points array for customer:', customer.points);
+
+                            // Iterate through the "points" array to log the specific fields
+                            customer.points.forEach((point: any) => {
+                                // Check if the fields exist before logging
+                                if (point.hasOwnProperty('expiry')) {
+                                    const to_typecast = point.expiry['$date'];
+                                    point.expiry = new Date(to_typecast)
+                                }
+                                if (point.hasOwnProperty('issuance')) {
+                                    const to_typecast = point.issuance['$date'];
+                                    point.issuance = new Date(to_typecast);
+                                }
+                                if (point.hasOwnProperty('issued_on')) {
+                                    const to_typecast = point.issued_on['$date'];
+                                    point.issued_on = new Date(to_typecast);
+                                }
+                                if (point.hasOwnProperty('issued')) {
+                                    const to_typecast = point.issued['$date'];
+                                    point.issued = new Date(to_typecast);
+                                }
+                            });
+                        }
+                    });
+                }
+            });
 
             await mongoose.connection.collection(colName).insertMany(defaultData);//insert the default collection
             console.log(`Inserted default data for collection: ${colName}`);
