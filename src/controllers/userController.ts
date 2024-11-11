@@ -88,6 +88,44 @@ export const getTotalPoints = async (req: Request, res: Response): Promise<void>
     }
 };
 
+export const getAllPoints = async (req: Request, res: Response): Promise<void> => {
+    const { username, phone, email } = req.query;
+
+    const companyKey = req.baseUrl.split('/')[1];
+    const company = companyModels[companyKey];
+
+    if (!company) {
+        res.status(400).json({ error: 'Invalid company route' });
+        return;
+    }
+
+    let query: any = {};
+
+    if (username) query = { 'customers.username': username };
+    else if (phone) query = { 'customers.phone': phone };
+    else if (email) query = { 'customers.email': email };
+    else { res.status(400).json({ error: 'Missing query parameter' }); return; }
+
+    try {
+        const result = await company.findOne(query, { 'customers.$': 1 });
+        if (!result) { res.status(404).json({ error: 'User not found' }); return; }
+
+        const customer = result.customers[0];
+        if (customer && customer.points) {
+            const AllPointsArray = customer.points
+
+            const response = {
+                points: AllPointsArray
+            };
+            res.json(response);
+        } else {
+            res.status(404).json({ error: 'Customer not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ error: 'Server error' });
+    }
+};
+
 export const updateUserPoints = async (req: Request, res: Response): Promise<void> => {
     const { username, phone, email } = req.query;
     const companyKey = req.baseUrl.split('/')[1];
