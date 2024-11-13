@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import fs from 'fs'; //to read json files
 import path from 'path';
 
-dotenv.config();
+dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
 // const dbUri = process.env.MONGODB_URI || ''; //local
 const dbUri = process.env.MONGO_URI || ''; //atlas
@@ -73,3 +73,5 @@ async function resetDatabase() {
 }
 
 resetDatabase();
+
+//ts-node reset_database.ts
