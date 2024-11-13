@@ -187,11 +187,29 @@ export const updateUserPoints = async (req: Request, res: Response): Promise<voi
     else {
         transaction_id = "MONET-deduct_" + generateTxId();
 
-        newPoint = {
-            points: String(points),
-            issued: new Date(),
-            tx_id: transaction_id
-        };
+        if (companyKey == "Company1" || companyKey == "Company4") {
+            newPoint = {
+                points: String(points),
+                issuance: new Date(),
+                tx_id: transaction_id
+            };
+        }
+
+        else if (companyKey == "Company2") {
+            newPoint = {
+                points: String(points),
+                issued_on: new Date(),
+                tx_id: transaction_id
+            };
+        }
+
+        else if (companyKey == "Company3") {
+            newPoint = {
+                points: String(points),
+                issued: new Date(),
+                tx_id: transaction_id
+            };
+        }
 
         let remainingDeduction = Math.abs(points);
 
