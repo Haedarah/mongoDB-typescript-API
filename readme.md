@@ -1,24 +1,24 @@
 # API Documentation
-## Introduction
+# Introduction
 Welcome to the **Company1 API**. This API allows you to view and add/deduct users points in Company1's loyalty database.
 
 **Base URL**: `https://mongodb-typescript-api.onrender.com/Company1/api`
 
-## Authentication
+# Authentication
 Include your API key in the request headers:
 
 `api-key : YOUR-API-KEY`
 
-## Endpoints
+# Endpoints
 
-### Get User Points History
+## Get User Points History
 **URL**: `/api/all_points`
 
 **Method**: `GET`
 
 **Description**: Retrieves details of a user's loyalty points. You can search for a user by one of the following parameters: `username`, `phone`, or `email`.
 
-#### Request Parameters:
+### Request Parameters:
 
 | Parameter     | Type      | Required      | Description               |
 |:-------------:|:---------:|:-------------:|:--------------------------|
@@ -27,32 +27,32 @@ Include your API key in the request headers:
 | `email`       | string    | optional      | email of the user         |
 > **Note**: At least one of these parameters is required to retrieve user details.
 
-#### Example Requests:
+### Example Requests:
 
-##### Example-1
+#### Example-1
 Retrieve user points by `username`:
 
 **GET** `/all_points?username=Alice01` HTTP/1.1
 
 **Authorization:** api-key : YOUR-API-KEY
 
-##### Example-2
+#### Example-2
 Retrieve user points by `phone`:
 
 **GET** `/all_points?phone=%2B911212121212` HTTP/1.1
 
 **Authorization:** api-key : YOUR-API-KEY
 
-##### Example-3
+#### Example-3
 Retrieve user points by `email`:
 
 **GET** `/all_points?email=alice@example.com` HTTP/1.1
 
 **Authorization:** api-key : YOUR-API-KEY
 
-#### Responses:
+### Responses:
 
-##### Success(200) OK
+#### Success(200) OK
 ```json
 {
     "points": [
@@ -76,42 +76,42 @@ Retrieve user points by `email`:
 }
 ```
 
-##### Error(400) Bad Request
+#### Error(400) Bad Request
 ```json
 {
     "error": "Missing query parameter"
 }
 ```
 
-##### Error(403) Forbidden
+#### Error(403) Forbidden
 ```json
 {
     "error": "Forbidden: Invalid API key"
 }
 ```
 
-##### Error(404) Not Found
+#### Error(404) Not Found
 ```json
 {
     "error": "User not found"
 }
 ```
 
-##### Error(500)
+#### Error(500)
 ```json
 {
     "error": "Server error"
 }
 ```
 
-### Get User Total Points
+## Get User Total Points
 **URL**: `/api/total_points`
 
 **Method**: `GET`
 
 **Description**: Retrieves the total available loyalty points of a user. You can search for a user by one of the following parameters: `username`, `phone`, or `email`.
 
-#### Request Parameters:
+### Request Parameters:
 
 | Parameter     | Type      | Required      | Description               |
 |:-------------:|:---------:|:-------------:|:--------------------------|
@@ -120,74 +120,74 @@ Retrieve user points by `email`:
 | `email`       | string    | optional      | email of the user         |
 > **Note**: At least one of these parameters is required to retrieve user details.
 
-#### Example Requests:
+### Example Requests:
 
-##### Example-1
+#### Example-1
 Retrieve user points by `username`:
 
 **GET** `/total_points?username=Alice01` HTTP/1.1
 
 **Authorization:** api-key : YOUR-API-KEY
 
-##### Example-2
+#### Example-2
 Retrieve user points by `phone`:
 
 **GET** `/total_points?phone=%2B911212121212` HTTP/1.1
 
 **Authorization:** api-key : YOUR-API-KEY
 
-##### Example-3
+#### Example-3
 Retrieve user points by `email`:
 
 **GET** `/total_points?email=alice@example.com` HTTP/1.1
 
 **Authorization:** api-key : YOUR-API-KEY
 
-#### Responses:
+### Responses:
 
-##### Success(200) OK
+#### Success(200) OK
 ```json
 {
     "totalPoints": 77
 }
 ```
 
-##### Error(400) Bad Request
+#### Error(400) Bad Request
 ```json
 {
     "error": "Missing query parameter"
 }
 ```
 
-##### Error(403) Forbidden
+#### Error(403) Forbidden
 ```json
 {
     "error": "Forbidden: Invalid API key"
 }
 ```
 
-##### Error(404) Not Found
+#### Error(404) Not Found
 ```json
 {
     "error": "User not found"
 }
 ```
 
-##### Error(500)
+#### Error(500)
 ```json
 {
     "error": "Server error"
 }
 ```
 
-### Get User Active Points
+## Get User Active Points
 **URL**: `/api/points_details`
 
 **Method**: `GET`
 
 **Description**: Retrieves the details of the user active points. This is a more useful version of `/all_points`. You can search for a user by one of the following parameters: `username`, `phone`, or `email`.
 
-#### Request Parameters:
+### Request Parameters:
 
 | Parameter     | Type      | Required      | Description               |
 |:-------------:|:---------:|:-------------:|:--------------------------|
@@ -196,32 +196,32 @@ Retrieve user points by `email`:
 | `email`       | string    | optional      | email of the user         |
 > **Note**: At least one of these parameters is required to retrieve user details.
 
-#### Example Requests:
+### Example Requests:
 
-##### Example-1
+#### Example-1
 Retrieve user points by `username`:
 
 **GET** `/points_details?username=Alice01` HTTP/1.1
 
 **Authorization:** api-key : YOUR-API-KEY
 
-##### Example-2
+#### Example-2
 Retrieve user points by `phone`:
 
 **GET** `/points_details?phone=%2B911212121212` HTTP/1.1
 
 **Authorization:** api-key : YOUR-API-KEY
 
-##### Example-3
+#### Example-3
 Retrieve user points by `email`:
 
 **GET** `/points_details?email=alice@example.com` HTTP/1.1
 
 **Authorization:** api-key : YOUR-API-KEY
 
-#### Responses:
+### Responses:
 
-##### Success(200) OK
+#### Success(200) OK
 ```json
 {
     "total_points": 77,
@@ -234,42 +234,42 @@ Retrieve user points by `email`:
 }
 ```
 
-##### Error(400) Bad Request
+#### Error(400) Bad Request
 ```json
 {
     "error": "Missing query parameter"
 }
 ```
 
-##### Error(403) Forbidden
+#### Error(403) Forbidden
 ```json
 {
     "error": "Forbidden: Invalid API key"
 }
 ```
 
-##### Error(404) Not Found
+#### Error(404) Not Found
 ```json
 {
     "error": "User not found"
 }
 ```
 
-##### Error(500)
+#### Error(500)
 ```json
 {
     "error": "Server error"
 }
 ```
 
-### Update User Points (add more points OR user some of the active points)
+## Update User Points (add more points OR user some of the active points)
 **URL**: `/api/put`
 
 **Method**: `PUT`
 
 **Description**: Adds a new element to the points array in a user profile. You can update a user's points by one of the following parameters: `username`, `phone`, or `email`.
 
-#### Request Parameters:
+### Request Parameters:
 
 | Parameter     | Type      | Required      | Description               |
 |:-------------:|:---------:|:-------------:|:--------------------------|
@@ -278,9 +278,9 @@ Retrieve user points by `email`:
 | `email`       | string    | optional      | email of the user         |
 > **Note**: At least one of these parameters is required to retrieve user details.
 
-#### Example Requests:
+### Example Requests:
 
-##### Example-1
+#### Example-1
 Add points by `username`:
 
 **PUT** `/put?username=Alice01` HTTP/1.1
@@ -295,7 +295,7 @@ Add points by `username`:
 }
 ```
 
-##### Example-2
+#### Example-2
 Deduct points by `phone`:
 
 **PUT** `/put?phone=%2B911212121212` HTTP/1.1
@@ -309,7 +309,7 @@ Deduct points by `phone`:
 }
 ```
 
-##### Example-3
+#### Example-3
 Add points by `email`:
 
 **PUT** `/put?email=alice@example.com` HTTP/1.1
@@ -323,9 +323,9 @@ Add points by `email`:
     "expiry" : "2025-01-01"
 }
 ```
-#### Responses:
+### Responses:
 
-##### Success(200) OK
+#### Success(200) OK
 ```json
 {
     "message": "Points updated successfully",
@@ -334,28 +334,28 @@ Add points by `email`:
 }
 ```
 
-##### Error(400) Bad Request
+#### Error(400) Bad Request
 ```json
 {
     "error": "Missing query parameter"
 }
 ```
 
-##### Error(403) Forbidden
+#### Error(403) Forbidden
 ```json
 {
     "error": "Forbidden: Invalid API key"
 }
 ```
 
-##### Error(404) Not Found
+#### Error(404) Not Found
 ```json
 {
     "error": "User not found or no update performed"
 }
 ```
 
-##### Error(500)
+#### Error(500)
 ```json
 {
     "error": "Server error"
