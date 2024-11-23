@@ -22,7 +22,7 @@ Include your API key in the request headers:
 
 | Parameter     | Type      | Required      | Description               |
 |:-------------:|:---------:|:-------------:|:--------------------------|
-| `username`    | string    | optional      | id of the user            |
+| `username`    | string    | optional      | username of the user      |
 | `phone`       | string    | optional      | phone number of the user  |
 | `email`       | string    | optional      | email of the user         |
 > **Note**: At least one of these parameters is required to retrieve user details.
@@ -115,7 +115,7 @@ Retrieve user points by `email`:
 
 | Parameter     | Type      | Required      | Description               |
 |:-------------:|:---------:|:-------------:|:--------------------------|
-| `username`    | string    | optional      | id of the user            |
+| `username`    | string    | optional      | username of the user      |
 | `phone`       | string    | optional      | phone number of the user  |
 | `email`       | string    | optional      | email of the user         |
 > **Note**: At least one of these parameters is required to retrieve user details.
@@ -191,7 +191,7 @@ Retrieve user points by `email`:
 
 | Parameter     | Type      | Required      | Description               |
 |:-------------:|:---------:|:-------------:|:--------------------------|
-| `username`    | string    | optional      | id of the user            |
+| `username`    | string    | optional      | username of the user      |
 | `phone`       | string    | optional      | phone number of the user  |
 | `email`       | string    | optional      | email of the user         |
 > **Note**: At least one of these parameters is required to retrieve user details.
