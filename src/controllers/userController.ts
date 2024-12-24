@@ -3,12 +3,16 @@ import Company1 from '../models/Company1';
 import Company2 from '../models/Company2';
 import Company3 from '../models/Company3';
 import Company4 from '../models/Company4';
+import Company5 from '../models/Company5';
+import Company6 from '../models/Company6';
 
 const companyModels: { [key: string]: any } = {
     'Company1': Company1,
     'Company2': Company2,
     'Company3': Company3,
-    'Company4': Company4
+    'Company4': Company4,
+    'Company5': Company5,
+    'Company6': Company6
 };
 
 export const getUserPoints = async (req: Request, res: Response): Promise<void> => {
@@ -153,7 +157,7 @@ export const updateUserPoints = async (req: Request, res: Response): Promise<voi
     if (points >= 0) {
         transaction_id = "MONET-add_" + generateTxId();
 
-        if (companyKey == "Company1" || companyKey == "Company4") { //Company1 and Company4 have the exact same point schema.
+        if (companyKey == "Company1" || companyKey == "Company4" || companyKey == "Company5" || companyKey == "Company6") {
             newPoint = {
                 points: String(points),
                 issuance: new Date(),
@@ -187,7 +191,7 @@ export const updateUserPoints = async (req: Request, res: Response): Promise<voi
     else {
         transaction_id = "MONET-deduct_" + generateTxId();
 
-        if (companyKey == "Company1" || companyKey == "Company4") {
+        if (companyKey == "Company1" || companyKey == "Company4" || companyKey == "Company5" || companyKey == "Company6") {
             newPoint = {
                 points: String(points),
                 issuance: new Date(),

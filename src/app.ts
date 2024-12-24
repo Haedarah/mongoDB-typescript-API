@@ -40,6 +40,16 @@ app.use(
     authMiddleware(process.env.API_KEY_COMPANY4 as string),
     userRoutes
 );
+app.use(
+    '/Company5/api',
+    authMiddleware(process.env.API_KEY_COMPANY5 as string),
+    userRoutes
+);
+app.use(
+    '/Company6/api',
+    authMiddleware(process.env.API_KEY_COMPANY6 as string),
+    userRoutes
+);
 
 //Step4: Start server
 app.listen(PORT, () => {
