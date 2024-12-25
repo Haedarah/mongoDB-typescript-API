@@ -3,8 +3,11 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node src/app.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node src/app.js",
+    "start:prod": "node build/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "rimraf": "./node_modules/rimraf/bin.js",
+    "build": "./node_modules/rimraf/bin.js build && tsc -p tsconfig.json"
   },
   "keywords": [],
   "author": "Haedarah",
@@ -21,6 +24,7 @@
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
     "@types/node": "^22.8.5",
+    "rimraf": "^3.0.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.3"
   }
