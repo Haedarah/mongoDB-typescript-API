@@ -1,23 +1,23 @@
 ---------------------------------------------------------
-| # Users: 						|
-| Alice:	alice@example.com	+911212121212	|
-| Bob:		bob@example.com		+911231231231	|
-| Carol:	carol@example.com	+911234123412	|
-| Carlos:	carlos@example.com	+911234512345	|
-| Darwin:	darwin@example.com	+912121212121	|
-| Elliot:	elliot@example.com 	+913213213213	|
----------------------------------------------------------
-| # Companies: 						|
-| Company1: Alice, Bob, and Carol			|
-| Company2: Alice, Bob, and Carlos			|
-| Company3: Bob, Darwin, and Elliot			|
-| Company4: Alice, Carol, Elliot			|
----------------------------------------------------------
-| # For testing:					|
-| Company1 <=> Company2 : Alice / Bob			|
-| Company1 <=> Company3 : Bob				|
-| Company1 <=> Company4 : Alice / Carol			|
-| Company2 <=> Company3 : Bob 				|
-| Company2 <=> Company4 : Alice				|
-| Company3 <=> Company4 : Elliot			|
+ # Users:
+ Alice:	alice@example.com	+911212121212
+ Bob:		bob@example.com		+911231231231
+ Carol:	carol@example.com	+911234123412
+ Carlos:	carlos@example.com	+911234512345
+ Darwin:	darwin@example.com	+912121212121
+ Elliot:	elliot@example.com 	+913213213213
+-------------------------------------------------------
+ # Companies:
+ Company1: Alice, Bob, and Carol
+ Company2: Alice, Bob, and Carlos
+ Company3: Bob, Darwin, and Elliot
+ Company4: Alice, Carol, Elliot
+-------------------------------------------------------
+ # For testing:
+ Company1 <=> Company2 : Alice / Bob
+ Company1 <=> Company3 : Bob
+ Company1 <=> Company4 : Alice / Carol
+ Company2 <=> Company3 : Bob 
+ Company2 <=> Company4 : Alice
+ Company3 <=> Company4 : Elliot
 ---------------------------------------------------------
